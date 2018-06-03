@@ -1,0 +1,37 @@
+version : '2'
+services:
+  
+  mysqldbserver:
+    build:
+      context: . 
+      dockerfile: mysqldb.dockerfile
+    expose:
+      - "3306"
+    
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: JavaSeniorJonatasRodrigues_db
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root123
+     
+      container_name: mysqldbserver
+
+  springappserver:
+    build:
+      context: . 
+      dockerfile: springapp.dockerfile
+    ports: 
+      - "8080:8080"
+    
+    environment:
+      DATABASE_HOST: mysqldbserver
+      DATABASE_USER: root
+      DATABASE_PASSWORD: root123
+      DATABASE_NAME: JavaSeniorJonatasRodrigues_db
+      DATABASE_PORT: 3306
+      
+    depends_on:
+      - mysqldbserver
+      
+      
+      
